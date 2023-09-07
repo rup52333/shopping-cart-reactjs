@@ -1,7 +1,9 @@
+  
 import { CartState } from "../Context/Context";
 import Filters from "./Filter";
 import SingleProduct from "./SingleProduct";
 import './styles.css'
+
 
 const Home = () => {
   const {
@@ -26,7 +28,7 @@ const transformProducts = () => {
       sortedProducts = sortedProducts.filter((prod) => prod.fastDelivery);
     }
 
-    if (byRating) {
+   if(byRating) {
       sortedProducts = sortedProducts.filter(
         (prod) => prod.ratings >= byRating
       );
@@ -34,13 +36,15 @@ const transformProducts = () => {
 
     if (searchQuery) {
       sortedProducts = sortedProducts.filter((prod) =>
-        prod.name.toLowerCase().includes(searchQuery)
+        prod.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
+  
 
     return sortedProducts;
 
   };
+
   
   return (
     <div className="home">

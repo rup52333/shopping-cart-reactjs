@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
+import {Box,Button} from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -19,8 +19,9 @@ import Badge from '@mui/material/Badge';
 import {CartState} from '../Context/Context';
 import { useNavigate } from "react-router-dom";
 
-
-
+import { useContext} from 'react';
+import {Cart} from '../Context/Context.jsx'
+import Avatar from '@mui/material/Avatar';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -77,13 +78,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function Header() {
     const navigate = useNavigate();
+  
+    const {
+      state: { cart },
+      dispatch,
+      productDispatch,
+    } = CartState();
 
-  const {
-    state: { cart },
-    dispatch,
-    productDispatch,
-  } = CartState();
-
+  
   const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -99,6 +101,9 @@ export default function Header() {
     navigate(`/login`)
     setAnchorEl(null);
   };
+
+
+  const {account,setAccount}=useContext(Cart);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -127,6 +132,14 @@ export default function Header() {
             <StyledInputBase
               placeholder="Search a product"
               inputProps={{ 'aria-label': 'search' }}
+
+              
+              onChange={(e) => {
+                productDispatch({
+                  type: "FILTER_BY_SEARCH",
+                  payload: e.target.value,
+                });
+              }}
             />
           </Search>
          
@@ -140,16 +153,9 @@ export default function Header() {
       
           {auth && (
             <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-                
-              >
-                <AccountCircle  sx={{fontSize:'45px'}}/>
+              
+              {/* <IconButton onClick={handleMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -167,9 +173,11 @@ export default function Header() {
                 onClose={handleClose}
               >
 
-                <MenuItem onClick={handleClose}>Register</MenuItem>
+                <MenuItem onClick={handleClose}>Login</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
+
+              </Menu> */}
+                        {account?<h5 color="inherit" style={{border:'1px solid green',backgroundColor:'green'}} >{account}</h5>: <Button color="inherit"  onClick={handleClose} sx={{border:'1px solid green',backgroundColor:'green'}}>Login</Button>}
             </div>
           )}
         </Toolbar>

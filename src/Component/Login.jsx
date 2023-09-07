@@ -1,4 +1,3 @@
-
 import React, { useState,useContext,useEffect  } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -18,7 +17,7 @@ import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import {styled} from '@mui/material'
 // import { authenticateLogin } from "../service/Api";
-// import {LoginContext} from '../Context/DataProvider.jsx'
+import {Cart} from '../Context/Context.jsx';
 import axios from 'axios';
 // import { googleLoginApi } from "../service/Api";
 
@@ -54,8 +53,8 @@ const loginInitialValues = {
   password: ''
 };
 export default function Login() {
-//   const { setAccount } = useContext(); // Import and destructure setAccount
-
+  const { setAccount } = useContext(Cart); 
+ 
   const [ error, showError] = useState(false);
 
   const navigate = useNavigate();
@@ -71,21 +70,21 @@ export default function Login() {
 
 
    const handleGoogleLogin = async (response) => {
-   console.log(response.given_name);
-   if(response) {
-    showError(false);
-    //   setAccount(response.given_name);
-  }
-else{
-  showError(true);
-
-
-}
-
- googleLogout();
- navigate('/home');
-  
-};
+    console.log(response);
+    if(response) {
+     showError(false);
+       setAccount(response.given_name);
+   }
+ else{
+   showError(true);
+ 
+ 
+ }
+ 
+  googleLogout();
+  navigate('/home');
+   
+ };
 
 
 const  handleFailure=(result)=>{
@@ -217,7 +216,7 @@ console.log(result);
           />
          */}
    
-    <GoogleOAuthProvider clientId="641307203075-i743uim30a02c0ttbs92rd9p25pu6p01.apps.googleusercontent.com" style={{mt:2}}>
+   <GoogleOAuthProvider clientId="641307203075-i743uim30a02c0ttbs92rd9p25pu6p01.apps.googleusercontent.com" style={{mt:2}}>
 
 <GoogleLogin
 theme="filled_blue"
@@ -227,7 +226,7 @@ onSuccess={credentialResponse => {
   var decoded = jwt_decode(credentialResponse.credential);
 
   handleGoogleLogin(decoded);
-// console.log(decoded);
+ console.log(decoded);
 
   }}
   onError={() => {

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer,useState } from "react";
 import Chance from 'chance';
 import { cartReducer,productReducer } from "./Reducer";
 import axios from 'axios';
@@ -6,12 +6,13 @@ import imageObjects from '../Component/productimage.js';
 
 const chance = new Chance();
 
-const Cart = createContext();
+export const Cart = createContext();
+
 
 
 
 const Context = ({ children }) => {
-
+  const [ account, setAccount ] = useState('');
   
   const products = [...Array(12)].map((_, index) => {
     const imageObject = imageObjects[index];
@@ -42,7 +43,7 @@ const Context = ({ children }) => {
 
 
   return (
-    <Cart.Provider value={{ state, dispatch,productState, productDispatch  }}>
+    <Cart.Provider value={{ state, dispatch,productState, productDispatch ,account, setAccount }}>
       {children}
     </Cart.Provider>
   );
