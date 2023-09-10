@@ -19,7 +19,7 @@ const Context = ({ children }) => {
     console.log(imageObject.length)
     return {
       id: chance.guid(),
-      name: chance.name(),
+      name:  imageObject.name,
       price: chance.floating({ min: 1, max: 100, fixed: 2 }),
       image: imageObject.src,
       inStock: chance.pickone([0, 3, 5, 6, 7]),
